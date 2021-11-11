@@ -19,6 +19,7 @@ async function run() {
       const database = client.db("nk_drones");
       const bannerCollection = database.collection("banners");
       const dronesCollection = database.collection("all_drones");
+      const ordersCollection = database.collection("orders");
     
     //   get drones data 
     app.get("/drones",async(req,res)=>{
@@ -28,7 +29,15 @@ async function run() {
         
     })
      
-   
+    //  send order data 
+    app.post("/orders",async(req,res)=>{
+      const query = req.body;
+      const result = await ordersCollection.insertOne(query);
+      res.json(result)
+      console.log(req.body);
+    })
+
+
     } finally {
     //   await client.close();
     }
