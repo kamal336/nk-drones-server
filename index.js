@@ -58,7 +58,7 @@ async function run() {
     // add product
      app.post("/addproduct",async(req,res)=>{
       const query = req.body;
-      const result = await rideCollection.insertOne(query);
+      const result = await dronesCollection.insertOne(query);
       res.json(result);
     })
      
