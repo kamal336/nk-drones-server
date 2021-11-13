@@ -46,7 +46,14 @@ async function run() {
       const appointments = await cursor.toArray();
       res.json(appointments);
     })
-    
+     
+    // get reviews 
+    app.get("/reviews",async(req,res)=>{
+      const cursor = reviewsCollection.find({});
+      const reviews = await cursor.toArray();
+      console.log(reviews);
+      res.json(reviews)
+    })
      
     // get admin 
     app.get("/users/:email",async(req,res)=>{
@@ -75,7 +82,7 @@ async function run() {
       const result= await usersCollection.insertOne(user);
       res.json(result)
     })
-
+   
     // review products 
     app.post("/reviews",async(req,res)=>{
       const review = req.body;
