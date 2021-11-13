@@ -54,6 +54,13 @@ async function run() {
       console.log(reviews);
       res.json(reviews)
     })
+
+    // add product
+     app.post("/addproduct",async(req,res)=>{
+      const query = req.body;
+      const result = await rideCollection.insertOne(query);
+      res.json(result);
+    })
      
     // get admin 
     app.get("/users/:email",async(req,res)=>{
@@ -64,7 +71,6 @@ async function run() {
       if(user?.role === 'admin'){
         isAdmin = true;
       } 
-      console.log(isAdmin);
       res.json({admin: isAdmin})
     })
 
