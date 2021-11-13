@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 const { MongoClient } = require('mongodb');
-const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 
 app.use(cors());
@@ -21,6 +20,7 @@ async function run() {
       const dronesCollection = database.collection("all_drones");
       const ordersCollection = database.collection("orders");
       const usersCollection  = database.collection("users");
+      const reviewsCollection = database.collection("reviews");
 
     //   get drones data 
     app.get("/drones",async(req,res)=>{
@@ -28,6 +28,14 @@ async function run() {
         const drones = await cursor.toArray();
         res.json(drones)
         
+    })
+
+    // get all orders 
+    app.get("/orders",async(req,res)=>{
+      const cursor = ordersCollection.find({});
+      const orders = await cursor.toArray();
+      console.log(orders);
+      res.json(orders)
     })
 
     // get my orders 
@@ -38,13 +46,7 @@ async function run() {
       const appointments = await cursor.toArray();
       res.json(appointments);
     })
-
-    app.get("/orders",async(req,res)=>{
-      const cursor = ordersCollection.find({});
-      const orders = await cursor.toArray();
-      console.log(orders);
-      res.json(orders)
-    })
+    
      
     // get admin 
     app.get("/users/:email",async(req,res)=>{
@@ -71,8 +73,15 @@ async function run() {
     app.post("/users",async(req,res)=>{
       const user  = req.body;
       const result= await usersCollection.insertOne(user);
-      console.log(result);
       res.json(result)
+    })
+
+    // review products 
+    app.post("/reviews",async(req,res)=>{
+      const review = req.body;
+      const result = await reviewsCollection.insertOne(review)
+      console.log(result);
+      res.json(result);
     })
   
     // update user profile 
