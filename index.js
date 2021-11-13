@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config();
 
 app.use(cors());
@@ -28,6 +29,15 @@ async function run() {
         const drones = await cursor.toArray();
         res.json(drones)
         
+    })
+    
+    // getsingle drone 
+    app.get("/drones/:id",async(req,res)=>{
+      const id = req.params.id;
+      const filter = {_id: ObjectId(id)}
+      const singleDrone = await dronesCollection.findOne(filter);
+      console.log(singleDrone);
+      res.json(singleDrone);
     })
 
     // get all orders 
